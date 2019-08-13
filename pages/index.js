@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import 'isomorphic-fetch'
+import Link from 'next/link'
 
 export default class index extends Component {
 
@@ -24,10 +25,12 @@ export default class index extends Component {
 
           {
             channels.map(channel => (
-              <div className="channel">
-                <img src={channel.urls.logo_image.original} alt=""/>
-                <h2>{channel.title}</h2>
-              </div>
+              <Link href={`/channel?id=${channel.id}`}>
+                <div className="channel">
+                  <img src={channel.urls.logo_image.original} alt=""/>
+                  <h2>{channel.title}</h2>
+                </div>
+              </Link>
             ))
           }
         </div>
