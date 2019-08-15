@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
+import PodcastList from '../components/PodcastList';
+import Layout from '../components/Layout';
 
 
 export default class channel extends Component {
@@ -29,26 +31,15 @@ export default class channel extends Component {
     const { channel, audioClips, series } = this.props
 
     return (
-      <div>
-        <header>Podcast</header>
+      <Layout title={channel.title}>
         <h1>{channel.title}</h1>
 
         <h2>Series</h2>
-        {
-          series.map(serie => (
-            <Link href={`/podcast?id=${channel.id}`}>
-              <a>{serie.title}</a>
-            </Link>
-          ))
-        }
+        <PodcastList podcasts={series} />
+
         <h2>Ultimos podcasts</h2>
-        {
-          audioClips.map(clip => (
-            <Link href={`/podcast?id=${clip.id}`}>
-              <a>{clip.title}</a>
-            </Link>
-          ))
-        }
+        <PodcastList podcasts={audioClips} />
+
         <style jsx>{`
           header {
             text-align: center;
@@ -86,7 +77,7 @@ export default class channel extends Component {
             text-align: center;
           }
         `}</style>
-      </div>
+      </Layout>
 
       
     )
