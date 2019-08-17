@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
-import PodcastList from '../components/PodcastList';
+import PodcastListWithClick from '../components/PodcastListWithClick';
 import Layout from '../components/Layout';
 import Error from './_error'
 
 export default class channel extends Component {
+
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       openPodcast: null
+    }
+  }
+  
 
   static async getInitialProps({query, res}) {
     try {
@@ -47,8 +56,15 @@ export default class channel extends Component {
     }
   }
 
+  openPodcast = (event, podcast) => {
+    event.preventDefault()
+    this.setState({ openPodcast: podcast })
+  }
+
   render() {
     const { channel, audioClips, series, statusCode } = this.props
+    const { openPodcast } = this.state
+    
 
     if (statusCode !== 200) {
       return <Error statusCode={statusCode} />
@@ -56,13 +72,18 @@ export default class channel extends Component {
 
     return (
       <Layout title={channel.title}>
-        <h1>{channel.title}</h1>
+        <div className="banner" style={{backgroundImage: `url(${channel.urls.banner_image.original})`}}>
+          
+          { openPodcast && <div>Hay un podcast abierto</div>}
 
-        <h2>Series</h2>
-        <PodcastList podcasts={series} />
+          <h1>{channel.title}</h1>
 
-        <h2>Ultimos podcasts</h2>
-        <PodcastList podcasts={audioClips} />
+          <h2>Series</h2>
+          <PodcastListWithClick podcasts={series} onClickPodcast={this.openPodcast}/>
+
+          <h2>Ultimos podcasts</h2>
+          <PodcastListWithClick podcasts={audioClips} onClickPodcast={this.openPodcast}/>
+        </div>
 
         <style jsx>{`
           header {
