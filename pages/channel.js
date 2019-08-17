@@ -3,6 +3,7 @@ import Link from 'next/link'
 import PodcastListWithClick from '../components/PodcastListWithClick';
 import Layout from '../components/Layout';
 import Error from './_error'
+import PodcastPlayer from '../components/PodcastPlayer';
 
 export default class channel extends Component {
 
@@ -61,6 +62,11 @@ export default class channel extends Component {
     this.setState({ openPodcast: podcast })
   }
 
+  closePodcast = (event) => {
+    event.preventDefault();
+    this.setState({ openPodcast: null })
+  }
+
   render() {
     const { channel, audioClips, series, statusCode } = this.props
     const { openPodcast } = this.state
@@ -74,7 +80,14 @@ export default class channel extends Component {
       <Layout title={channel.title}>
         <div className="banner" style={{backgroundImage: `url(${channel.urls.banner_image.original})`}}>
           
-          { openPodcast && <div>Hay un podcast abierto</div>}
+          { openPodcast 
+            && <div>
+              <PodcastPlayer
+                clip={openPodcast}
+                onClose={this.closePodcast}
+              />
+            </div>
+          }
 
           <h1>{channel.title}</h1>
 
@@ -120,6 +133,15 @@ export default class channel extends Component {
             font-weight: 600;
             margin: 0;
             text-align: center;
+          }
+
+          .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 999;
           }
         `}</style>
       </Layout>
