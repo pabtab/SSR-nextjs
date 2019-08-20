@@ -4,6 +4,8 @@ Podcast App with audioboom API - Next JS
 
 ![App screenshot](./.readme-static/captura.png)
 
+[App production build](https://podcasts.pabtab.now.sh)
+
 ## How works
 
 Require NodeJS 10
